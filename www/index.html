@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <title>Call API</title>
+    <style>
+      #div {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+      }
+      button {
+        font-family: sans-serif;
+        font-size: 16px;
+        color: white;
+        background-color: #4885ed;
+        margin-top: 15px;
+      }
+      button:hover {
+        background-color: orange;
+      }
+      p {
+        font-family: sans-serif;
+        font-size: 16px;
+        font-style: italic;
+        font-weight: bold;
+      }
+      input {
+        font-size: 15px;
+      }
+      #btnShowUsers {
+        float: right;
+      }
+    </style>
+  </head>
+  <body bgcolor="#ccf8ff">
+    <div id="div">
+      <form>
+        <p>Nombre de usuario:</p>
+        <input type='text' id='username' value=""/>
+        <p>Password:</p>
+        <input type='password' id='pwd' value=""/>
+      </form>
+
+      <button id="btnLogin" onClick="callAPI()">Login</button>
+      <button id="btnShowUsers" onClick="showUsers()">Ver usuarios</button>
+      <script type="text/javascript">
+        function callAPI() {
+          var username = $("#username").val();
+          var password = $("#pwd").val();
+          if (username != "" && password != "") {
+            console.log(username+":"+password);
+            $.ajax({
+              method: "GET",
+              url: "https://secret-chamber-67247.herokuapp.com/login/"+username+"/"+password,
+              dataType: "json",
+            }).done(function (msg) {
+              if (msg.status == "OK"){
+                alert("Te has logeado correctamente! Hola "+username+" :)");
+                $('body').html(JSON.stringify(msg));
+                console.dir($('#div').text());
+              } else if (msg.status = "ERROR") {
+                alert("Usuario incorrecto :(");
+              } else {
+                alert(msg.status);
+              }
+            }).fail(function (xhr, textStatus, thrownError) {
+              alert("ERROR: "+xhr.status);
+            });
+          } else {
+            alert("ERROR: Introduce un usuario y una password")
+          }
+          //Para borrar el texto de los inputs
+          $("#username").val("");
+          $("#pwd").val("");
+        }
+
+        function showUsers() {
+          // Cambiar de html
+          location.href = "lista.html";
+        }
+      </script>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <title>Lista Usuarios</title>
+  </head>
+  <style>
+    li {
+      font-size: 16px;
+      font-family: sans-serif;
+      padding: 2px;
+    }
+    p {
+      font-size: 18px;
+      font-family: sans-serif;
+    }
+    button {
+      font-size: 16px;
+      color: white;
+      background-color: #4885ed;
+      margin-top: 5px;
+    }
+  </style>
+  <body>
+    <div>
+      <p><u>Usuarios disponibles</u> (user:password)</p>
+      <ul id="list"></ul>
+      <button onClick="back()">Volver al login</button>
+    </div>
+  </body>
+  <script>
+    getUsers();
+
+    function getUsers() {
+      $.ajax({
+        method: "GET",
+        url: "https://secret-chamber-67247.herokuapp.com/db",
+        dataType: "json",
+      }).done(function (msg) {
+        for (user in msg) {
+          var usuario = msg[user];
+          var node = $("<li>"+usuario.username+":"+usuario.password+"</li>");
+          $("#list").append(node);
+        }
+        console.log(msg);
+      }).fail(function (xhr, textStatus, thrownError) {
+        alert("ERROR: "+xhr.status);
+      });
+    }
+
+    function back() {
+      // Cambiar de html
+      location.href = "index.html";
+    }
+  </script>
+</html>
