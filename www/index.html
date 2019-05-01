@@ -40,9 +40,9 @@
     <div id="div">
       <form>
         <p>Nombre de usuario:</p>
-        <input type='text' id='username' value=""/>
+        <input type='text' placeholder="Usuario" id='username' value=""/>
         <p>Password:</p>
-        <input type='password' id='pwd' value=""/>
+        <input type='password' placeholder="Contraseña" id='pwd' value=""/>
       </form>
 
       <button id="btnLogin" onClick="callAPI()">Login</button>
@@ -63,7 +63,7 @@
                 $('body').html(JSON.stringify(msg));
                 console.dir($('#div').text());
               } else if (msg.status = "ERROR") {
-                alert("Usuario incorrecto :(");
+                alert("Usuario incorrecto :( \n"+JSON.stringify(msg));
               } else {
                 alert(msg.status);
               }
